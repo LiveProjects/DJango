@@ -3,4 +3,12 @@ asd
 {% for x in tab_list %}
 {{ x }}
 {% endfor %}
+{% load staticfiles %}
+<script src="{% static "jquery.js" %}"></script>
+<script>
+$(document).ready(function(){
+console.log(123);
+})
+
+</script>
 </html>

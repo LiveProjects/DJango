@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>{{ current_page }}</title>
+</head>
+<body style="margin-top: 65px;">
+{#提示#}
+<div id="msg" class="alert" role="alert"></div>
+
+{#顶部导航#}
+{% include 'nav.html' %}
+
+{#面包屑导航#}
+<div class="container-fluid">
+    {% block breadcrumbs %}
+    {% endblock %}
+</div>
+
+{#页面内容#}
+<div class="container-fluid">
+    {% block content %}
+    {% endblock %}
+</div>
+
+{#页脚#}
+{% block footer %}
+{% endblock %}
+
+{#静态文件#}
+{% block extrastyle %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "lib/css/bootstrap.min.css" %}">
+
+    <script src="{% static "lib/js/jquery-1.9.1.min.js" %}"></script>
+    <script src="{% static "lib/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "common/common.js" %}"></script>
+{% endblock %}
+</body>
+</html>
