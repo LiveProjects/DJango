@@ -4,11 +4,32 @@ asd
 {{ x }}
 {% endfor %}
 {% load staticfiles %}
+
+<body>
+<button type="button" id="ajax">click</button>
+</body>
+
 <script src="{% static "jquery.js" %}"></script>
 <script>
-$(document).ready(function(){
-console.log(123);
+$(document).ready(function(e){
+    $("#ajax").bind('click',function(){
+        var url=window.location.pathname;
+        $.ajax({
+            url:'http://127.0.0.1:8000/ajax/',
+            Type:'get',
+            dataType:'json',
+            data:{
+                'name':'lio Love anna',
+                'age':12
+            },
+            success:function(data){
+                alert(data);
+                console.log(data);
+            }
+        })
+    })
 })
+</script>
 
 </script>
 </html>

@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+import json
 from django.shortcuts import render
 
 from django.http import HttpResponse
@@ -18,6 +19,26 @@ def index(req):
 
 def indexnum(req, num):
     return HttpResponse('<html>345</html>')
+
+def aajax(request):
+    if request.is_ajax() and request.method == 'POST':
+        dict = {}
+        for key in request.POST:
+            dict['key'] = key
+            json=simplejson.dumps(dict)
+        return HttpResponse(json)
+
+def ajax(request):
+    dict = {}
+    if request.is_ajax():
+        dict['name']='lio'
+        dict['name']=request.REQUEST.get('name','default')
+      
+        jsons=json.dumps(dict)
+        return HttpResponse(jsons) 
+        
+
+
 
 
 

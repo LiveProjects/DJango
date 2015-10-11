@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^blog/',include('blog.urls')),
     url(r'^lio/$','blog.views.show'),
+    url(r'^ajax/$','blog.views.ajax'),
+    #url(r'^url/(\w{1,})/$',blog.views.url),
 ]
