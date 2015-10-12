@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "resys/profile.css" %}">
+{% endblock %}
+
+{% block nav-right %}
+    <li role="presentation"><a href="{{ user.id }}"><i class="glyphicon glyphicon-user"></i> {{user.username}}</a></li>
+{% endblock %}
+
+{% block content %}
+<h1>{{item.zh_name}}<span id="en_name" style="display: none;">{{item.en_name}}</span>的详情页面</h1>
+
+<div id="profile_detail_main">
+
+    <div id="profile_detail_table">
+        <div class="panel panel-default">
+          <div class="panel-heading">表格详情</div>
+          <div class="panel-body">
+            <p>表格说明</p>
+          </div>
+
+          <!-- Table -->
+          <table class="table">
+              <thead valign="middle" align="center">
+              <tr align="center">
+                  <th>标题来源</th>
+                  <th>点击数量</th>
+                  <th>相关性</th>
+              </tr>
+              </thead>
+              <tbody valign="middle" align="center">
+              <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+              </tr>
+              <tr>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+              </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+
+
+    <div id="profile_detail_control">
+        <div>
+            <button class="btn btn-success" id="management">管理</button>
+            <button class="btn btn-danger" id="history" data-toggle="modal" data-target="#historyModal">历史</button>
+        </div>
+        <div>
+            <table class="table">
+                <tbody>
+                <tr><td rowspan="5" >最近一周统计：</td></tr>
+                <tr><td rowspan="1">profile用户数：</td></tr>
+                <tr><td rowspan="1">日均文章数：{{item}}</td></tr>
+                <tr><td rowspan="1">日均阅读数：</td></tr>
+                <tr><td rowspan="1">准确率：</td><td rowspan="1">召回：</td></tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="profile_detail_tag" class="profile_detail_tag">
+            <span>产品使用:</span><button style="display: none;">{{item.product_use}}</button>
+            <ul>
+                <li>标签</li>
+                <li>频道</li>
+                <li>搜索</li>
+                <li>关心</li>
+                <li>推送</li>
+            </ul>
+        </div>
+
+
+        <div id="profile_detail_changedefine" class="profile_detail_tag">
+            <span>定义：</span>
+            <textarea name="" id="" cols="39" rows="4" style="margin-left: 10px; padding: 4px;" disabled="disabled" >{{item.definition}}</textarea>
+            <button>编辑</button>
+
+        </div>
+
+        <div id="profile_detail_changeregular" class="profile_detail_tag">
+            <span>规则：</span>
+            <textarea name="" id="" cols="39" rows="4" style="margin-left: 10px; padding: 4px;" disabled="disabled">{{item.regulation}}</textarea>
+            <button>编辑</button>
+        </div>
+
+        <hr>
+        <div id="profile_detail_method" class="profile_detail_tag">
+            <span>实现方式:</span><button style="display: none;">{{item.achieve_method}}</button>
+            <ul>
+                <li>svm分类模型</li>
+                <li>概念实体</li>
+                <li>规则识别</li>
+                <li>关键词匹配</li>
+            </ul>
+        </div>
+
+        <div id="profile_detail_outputmethod" class="profile_detail_tag">
+            <span>输出方式:</span><button style="display: none;">{{item.profile_type}}</button>
+            <ul>
+                <li>分类模型</li>
+                <li>概念实体</li>
+                <li>一般实体</li>
+            </ul>
+        </div>
+        <hr>
+
+        <div id="proflie_detail_relation">
+            <div>
+                <h6>父级: <span type="button" data-toggle="modal" data-target="#parentModal">编辑</span></h6>
+                <button class="btn btn-success" style="margin-left: 72px;"><a href="http://10.4.17.165:9550/crawl/resys/profile/{{parent_res.en_name}}/">{{parent_res.zh_name}}</a></button>
+            </div>
+            <div>
+                <!--<h6>子级:<span type="button"  data-toggle="modal" data-target="#sonModal">编辑</span></h6>-->
+                <h6>子级:<span type="button"  data-toggle="modal" data-target="#sonModal">编辑</span></h6>
+                {% for x in sons %}
+                {% if forloop.counter == 1 %}
+                <button class="btn" style="margin-left: 72px; margin-bottom: 4px;"><a href="http://10.4.17.165:9550/crawl/resys/profile/{{x.en_name}}/">{{x.zh_name}}</a></button>
+                {% else %}
+                <button class="btn" style="margin-bottom: 4px;"><a href="http://10.4.17.165:9550/crawl/resys/profile/{{x.en_name}}/">{{x.zh_name}}</a></button>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div><!-- profile_detail_control -->
+
+</div>
+
+<!-- Parent Modal -->
+<div class="modal fade" id="parentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel1">修改父类</h4>
+      </div>
+      <div class="modal-body">
+          <input type="text" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-info pull-left">新增父类</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="fixfather">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Son Modal -->
+<div class="modal fade" id="sonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2">修改子类</h4>
+      </div>
+      <div class="modal-body">
+          <input type="text" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-info pull-left">新增父类</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="fixsons">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="width: 1000px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel3">历史查看</h4>
+      </div>
+      <div class="modal-body" id="history_show">
+          {% for x in history_res %}
+          <div class="well" style="overflow: hidden;">
+              <span class="well well-sm pull-right">{{x.modify_time|date:"Y-m-d H:i:s"}}</span>
+              <p for="">定义：{{x.definition}}</p>
+              <p for="">规则:{{x.regulation}}</p>
+              <p>父级:{{x.parent_id}}</p>
+              <button class="btn btn-danger pull-right">撤回</button>
+          </div>
+          <hr>
+          {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="history_model">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+{{ block.super }}
+{% load staticfiles %}
+<script src="{% static "resys/profile.js" %}" type="text/javascript" charset="UTF-8"></script>
+{% endblock %}
+
+

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static "resys/profile.css" %}">
+{% endblock %}
+
+{% block nav-right %}
+    <li role="presentation"><a href="{{ user.id }}"><i class="glyphicon glyphicon-user"></i> {{user.username}}</a></li>
+{% endblock %}
+
+{% block content %}
+<h4>Profile系统后台</h4>
+
+<div id="profile_main">
+    <div id="profile_tree">
+        <div id="profile_main_tablist">
+            <ul class="nav nav-tabs">
+                {% for v in tab_list %}
+                    {% if forloop.counter == 1 %}
+                    <li role="presentation" class="active"><a href="#">{{v}}</a></li>
+                    {% else %}
+                    <li role="presentation"><a href="#">{{v}}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <button class="btn btn-info pull-right" data-toggle="modal" data-target="#add_character">新增申请</button>
+        </div>
+
+        <div id="profile_main_card">
+            <ul>
+                <li>
+                    <div id="profile_itemlist">
+                        <!--<ul class="list-group">-->
+                            <!--{% for key, value in res.items %}-->
+                            <!--{% if key == 'first_grade' %}-->
+                                <!--{% for x in value %}-->
+                                <!--<li class="list-group-item" id="{{x.en_name}}"><a href="{{x.en_name}}/">{{forloop.counter}}<button style="padding: 1px 3px;">+</button>{{  x.zh_name}} {{x.en_name}}</a></li>-->
+                                <!--{% endfor %}-->
+                            <!--{% endif %}-->
+                            <!--{% endfor %}-->
+                        <!--</ul>-->
+                        <ul class="list-group" id="test"></ul>
+                    </div>
+                </li>
+                <li>
+
+                    <!--{% for x, key in res.items %}-->
+                    <!--<p>{{forloop.counter}}{{x}}</p>-->
+                    <!--{% endfor %}-->
+                    {{connect}}
+
+                </li>
+                <li>
+                    <!--{% for x in which %}-->
+                    <!--<p>{{forloop.counter}}{{x}}</p>-->
+                    <!--{% endfor %}-->
+                    {{con}}
+                </li>
+            </ul>
+        </div>
+
+    </div><!-- profile_tree -->
+
+    <div id="profile_character">
+        <div id="profile_character_search">
+            <div class="col-lg-12"  class="form-control">
+                <div class="input-group">
+                  <input type="text" class="form-control" aria-label="...">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" style="border-radius: 0;-moz-border-radius: ;border-radius: ;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">筛选条件 <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a >条件一</a></li>
+                      <li><a >条件二</a></li>
+                      <li><a >条件</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="#">条件</a></li>
+                    </ul>
+                    <button type="button" class="btn btn-default">Search</button>
+                  </div><!-- /btn-group -->
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-12 -->
+        </div>
+    </div><!-- profile_character -->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="add_character" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document" style="width: 1000px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">新增兴趣特征</h4>
+          </div>
+          <div class="modal-body container" id="profile_addcharacter_modal">
+            <div class="col-md-12 col-lg-12">
+                <label for="content" style="margin-left: 10px;"><input type="checkbox" id="content" checked value="内容特征">内容特征</label>
+                <label for="quality" style="margin-left: 10px;"><input type="checkbox" id="quality" value="内容质量">内容质量</label>
+                <label for="geogle" style="margin-left: 10px;"><input type="checkbox" id="geogle" value="地理特征">地理特征</label>
+            </div>
+              <hr>
+            <div  class="col-md-6 col-lg-6 col-md-offset-0 col-lg-offset-0">
+                <ul class="list-group">
+                    <li><label for="" class="form-control">中文名:<input type="text" style="border: none; outline: none;"></label></li>
+                    <li><label for="" class="form-control">英文名:<input type="text" style="border: none; outline: none;"></label></li>
+                    <li><label for="" class="form-control">定义:<input type="text" style="border: none; outline: none;"></label></li>
+                    <li><label for="" class="form-control">标注规则:<input type="text" style="border: none; outline: none;"></label></li>
+                    <li><label for="" class="form-control">父级:<input type="text" style="border: none; outline: none;"></label></li>
+                    <li><label for="" class="form-control">子级:<input type="text" style="border: none; outline: none;"></label></li>
+                    <li id="lastli">
+                        <label for="" style="border: none;">预期使用场景:</label>
+                        <label for="pindao"><input type="checkbox" id="pindao">标签</label>
+                        <label for="guanxin"><input type="checkbox" id="guanxin">频道</label>
+                        <label for="tuisong"><input type="checkbox" id="tuisong">搜索</label>
+                        <label for="biaoqian"><input type="checkbox" id="biaoqian">关心</label>
+                        <label for="daya"><input type="checkbox" id="daya">推送</label>
+                    </li>
+                </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" id="submitadd">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+{{ block.super }}
+{% load staticfiles %}
+<script src="{% static "resys/profile.js" %}" type="text/javascript" charset="UTF-8"></script>
+{% endblock %}
+
+
